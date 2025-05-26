@@ -13,7 +13,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # GitHub repository URL
-REPO_URL="git@yosephbernandus:yosephbernandus/django-skeleton.git"
+REPO_URL="https://github.com/yosephbernandus/django-skeleton.git"
 
 echo -e "${BLUE}🚀 Django Project Generator${NC}"
 echo "=================================="
@@ -212,7 +212,7 @@ echo -e "${YELLOW}📦 Installing project dependencies...${NC}"
 
 # Download dependencies.txt from the django-project-generator repository
 echo -e "${YELLOW}📋 Downloading dependencies.txt...${NC}"
-DEPENDENCIES_URL="https://raw.githubusercontent.com/yourusername/django-project-generator/main/dependencies.txt"
+DEPENDENCIES_URL="https://raw.githubusercontent.com/yosephbernandus/django-project-generator/master/dependencies.txt"
 
 
 if curl -sSL "$DEPENDENCIES_URL" -o dependencies.txt; then
