@@ -34,7 +34,6 @@ Before using the Django Project Generator, ensure you have:
   ```
 
 ### **Optional but Recommended**
-- **Docker** - For containerized development
 - **PostgreSQL** - For production database
 - **Redis** - For caching
 - **Celery** - For async tasks
@@ -143,8 +142,6 @@ my_awesome_blog/
 ├── .env                      # Environment variables
 ├── .env.example             # Environment template
 ├── pyproject.toml           # Project configuration with Ruff/MyPy
-├── Dockerfile               # Production-ready container
-├── docker-compose.yml       # Full development stack
 ├── src/                     # Django source code
 │   ├── config/             # Project settings
 │   ├── core/               # Utilities and base classes
