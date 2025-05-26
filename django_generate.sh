@@ -364,6 +364,11 @@ env = environ.Env(\
     MEDIA_ROOT=(str, os.path.join(BASE_DIR, "media")),\
     STATIC_URL=(str, "/static/"),\
     STATIC_ROOT=(str, os.path.join(BASE_DIR, "staticfiles")),\
+    SENTRY_DSN=(str, ""),\
+    SENTRY_TRACES_SAMPLE_RATE=(float, "1.0"),\
+    DD_TRACE_ENABLED=(bool, False),\
+    DD_SERVICE=(str, ""),\
+    DD_VERSION=(str, "1.0.0"),\
 )\
 \
 environ.Env.read_env(os.path.join(BASE_DIR.parent, ".env"))\
@@ -550,6 +555,39 @@ if DEBUG:
             "displayOperationId": True,
         },
     }
+
+# Sentry
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+SENTRY_CONFIG = {
+    "dsn": env("SENTRY_DSN"),
+    "environment": env("ENVIRONMENT"),
+    "traces_sample_rate": float(env("SENTRY_TRACES_SAMPLE_RATE")),
+    "send_default_pii": False,
+}
+if SENTRY_CONFIG["dsn"]:
+    sentry_sdk.init(
+        dsn=SENTRY_CONFIG["dsn"],
+        environment=SENTRY_CONFIG["environment"],
+        traces_sample_rate=SENTRY_CONFIG["traces_sample_rate"],
+        send_default_pii=SENTRY_CONFIG["send_default_pii"],
+        integrations=[
+            DjangoIntegration(
+                transaction_style="url",
+                middleware_spans=True,
+            ),
+        ],
+    )
+
+# Datadog
+DD_TRACE_ENABLED = env("DD_TRACE_ENABLED")
+DD_SERVICE = env("DD_SERVICE")
+DD_ENV = ENVIRONMENT
+DD_VERSION = env("DD_VERSION")
+
+# Sampling rules
+DD_TRACE_SAMPLING_RULES = [{"sample_rate": "0.0", "service": f"{DD_SERVICE}-default"}]
 EOF
 
 # Fix TEMPLATES DIRS and STATIC settings
