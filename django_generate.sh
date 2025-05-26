@@ -215,7 +215,7 @@ echo -e "${YELLOW}📋 Downloading dependencies.txt...${NC}"
 DEPENDENCIES_URL="https://raw.githubusercontent.com/yosephbernandus/django-project-generator/master/dependencies.txt"
 
 
-if curl -sSL "$DEPENDENCIES_URL" -o dependencies.txt; then
+if curl -sSL --fail "$DEPENDENCIES_URL" -o dependencies.txt 2>/dev/null; then
     echo -e "${GREEN}✅ Dependencies.txt downloaded${NC}"
     
     echo -e "${YELLOW}📋 Installing dependencies from dependencies.txt...${NC}"
@@ -230,6 +230,11 @@ if curl -sSL "$DEPENDENCIES_URL" -o dependencies.txt; then
     # Remove dependencies.txt after installation
     rm -f dependencies.txt
     echo -e "${GREEN}✅ Dependencies from dependencies.txt installed${NC}"
+else
+    echo -e "${YELLOW}⚠️ Failed to download dependencies.txt, using fallback dependencies${NC}"
+    # Fallback to basic dependencies
+    uv add django-environ djangorestframework django-cors-headers psycopg2-binary celery redis django-redis
+fi
 
 # Remove any Python files in root directory (from uv init)
 echo -e "${YELLOW}🧹 Cleaning up generated Python files...${NC}"
