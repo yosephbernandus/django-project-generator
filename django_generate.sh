@@ -610,6 +610,13 @@ fi
 
 cd ..
 
+# Create logs directory
+echo -e "${YELLOW}📝 Create Logs Dirctory${NC}"
+mkdir -p logs
+WORKDIR=`pwd`
+LOG_PATH=${WORKDIR}/logs 
+sed -i 's|LOG_PATH=.*|LOG_PATH="'$LOG_PATH'"|' .env
+
 # Step 12: Initialize new git repository
 echo -e "${YELLOW}🔄 Initializing git repository...${NC}"
 git init
