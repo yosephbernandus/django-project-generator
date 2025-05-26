@@ -587,3 +587,4 @@ echo "4. uv run python src/manage.py runserver"
 echo ""
 echo -e "${BLUE}To activate the virtual environment:${NC}"
 echo "source .venv/bin/activate"
+
